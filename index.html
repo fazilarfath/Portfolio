@@ -17,12 +17,31 @@
   --line:#1E1E1E;
   --line-2:#2C2C2C;
   --white:#FFFFFF;
-  --grey:#BEBEBE;
-  --grey-2:#8C8C8C;
+  --grey:#C8C8C8;
+  --grey-2:#A3A3A3;
   --red:#FF3B30;
   --font:"Archivo", "Helvetica Neue", Arial, system-ui, sans-serif;
   --ease:cubic-bezier(.2,.75,.2,1);
+  --panel-a:#101010; --panel-b:#0a0a0a; --kpi:#141414; --panel:#121212; --track:#262626;
+  --node-bg:#0e0e0e; --node-bd:#444444; --dot:#2a2a2a; --tile-dot:#3a3a3a; --soft:#DCDCDC; --bar-mute:#3c3c3c;
+  --shadow:rgba(0,0,0,.9); --lead:rgba(255,255,255,.28); --red-hover:#FF5248; --nav-bg:rgba(5,5,5,.82);
   color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --black:#F4F4F2; --ink:#FFFFFF; --line:#E1E1DF; --line-2:#CFCFCC; --white:#0B0B0B; --grey:#3A3A3A; --grey-2:#555555; --red:#D92B20;
+    --panel-a:#FFFFFF; --panel-b:#FAFAF9; --kpi:#F4F4F3; --panel:#FAFAF9; --track:#E3E3E1;
+    --node-bg:#FFFFFF; --node-bd:#BDBDBB; --dot:#D6D6D4; --tile-dot:#C4C4C2; --soft:#2A2A2A; --bar-mute:#C9C9C7;
+    --shadow:rgba(0,0,0,.14); --lead:rgba(0,0,0,.25); --red-hover:#BF2318; --nav-bg:rgba(244,244,242,.85);
+    color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --black:#F4F4F2; --ink:#FFFFFF; --line:#E1E1DF; --line-2:#CFCFCC; --white:#0B0B0B; --grey:#3A3A3A; --grey-2:#555555; --red:#D92B20;
+  --panel-a:#FFFFFF; --panel-b:#FAFAF9; --kpi:#F4F4F3; --panel:#FAFAF9; --track:#E3E3E1;
+  --node-bg:#FFFFFF; --node-bd:#BDBDBB; --dot:#D6D6D4; --tile-dot:#C4C4C2; --soft:#2A2A2A; --bar-mute:#C9C9C7;
+  --shadow:rgba(0,0,0,.14); --lead:rgba(0,0,0,.25); --red-hover:#BF2318; --nav-bg:rgba(244,244,242,.85);
+  color-scheme:light;
 }
 *{box-sizing:border-box}
 body{margin:0; background:var(--black); color:var(--white); font-family:var(--font); -webkit-font-smoothing:antialiased; overflow-x:hidden}
@@ -65,8 +84,8 @@ h1 em{font-style:normal; color:var(--red)}
 @keyframes fade{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none}}
 .btn{display:inline-flex; align-items:center; gap:12px; min-height:48px; padding:0 24px; border-radius:999px; font-family:var(--font); font-size:0.7rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; text-decoration:none; border:1px solid var(--line-2); color:var(--white); background:transparent; transition:border-color .3s, background .3s, transform .3s var(--ease)}
 .btn:hover{border-color:var(--white); transform:translateY(-2px)}
-.btn.solid{background:var(--red); border-color:var(--red)}
-.btn.solid:hover{background:#FF5248; border-color:#FF5248}
+.btn.solid{background:var(--red); border-color:var(--red); color:#fff}
+.btn.solid:hover{background:var(--red-hover); border-color:var(--red-hover)}
 .btn .ar{transition:transform .3s var(--ease)}
 .btn:hover .ar{transform:translateX(4px)}
 
@@ -75,7 +94,7 @@ h1 em{font-style:normal; color:var(--red)}
 .stage{position:relative; height:clamp(400px, 64vh, 580px); min-width:0}
 .stage canvas{position:absolute; inset:0; width:100%; height:100%; display:block}
 .tags{position:absolute; inset:0; pointer-events:none}
-.foot{margin:0; font-size:0.58rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--grey-2); text-align:right}
+.foot{margin:0; font-size:0.64rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--grey-2); text-align:right}
 
 /* stage names on the glass */
 .glab{position:absolute; left:0; top:0; display:flex; flex-direction:column; align-items:center; text-align:center; gap:1px; pointer-events:none; will-change:transform}
@@ -85,14 +104,14 @@ h1 em{font-style:normal; color:var(--red)}
 /* results beside each tier */
 .res{position:absolute; left:0; top:0; display:flex; align-items:center; gap:10px; pointer-events:none; will-change:transform; opacity:0; transition:opacity .7s var(--ease)}
 .res.show{opacity:1}
-.res .ln{display:block; width:28px; height:1px; background:rgba(255,255,255,.28); position:relative; flex:none; transform-origin:left; transform:scaleX(0); transition:transform .7s var(--ease), background .4s}
+.res .ln{display:block; width:28px; height:1px; background:var(--lead); position:relative; flex:none; transform-origin:left; transform:scaleX(0); transition:transform .7s var(--ease), background .4s}
 .res.show .ln{transform:scaleX(1)}
-.res .ln::before{content:""; position:absolute; left:-3px; top:-3px; width:7px; height:7px; border-radius:50%; background:#fff}
+.res .ln::before{content:""; position:absolute; left:-3px; top:-3px; width:7px; height:7px; border-radius:50%; background:var(--white)}
 .res .bx{display:flex; flex-direction:column; gap:2px; transform:translateX(-8px); transition:transform .7s var(--ease)}
 .res.show .bx{transform:none}
-.res b{font-size:var(--rb, 1.6rem); font-weight:850; letter-spacing:-0.025em; line-height:1; color:#fff; font-variant-numeric:tabular-nums; white-space:nowrap; transition:color .4s, text-shadow .4s}
+.res b{font-size:var(--rb, 1.6rem); font-weight:850; letter-spacing:-0.025em; line-height:1; color:var(--white); font-variant-numeric:tabular-nums; white-space:nowrap; transition:color .4s, text-shadow .4s}
 .res b i{font-style:normal; color:var(--red)}
-.res .bx > span{font-size:var(--rs, 0.74rem); color:var(--grey); white-space:nowrap}
+.res .bx > span{font-size:var(--rs, 0.78rem); color:var(--grey); white-space:nowrap}
 .res em{font-style:normal; font-size:0.56rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--grey-2)}
 .res.on .ln{background:var(--red)}
 .res.on .ln::before{background:var(--red); box-shadow:0 0 0 5px rgba(255,59,48,.2)}
@@ -100,7 +119,7 @@ h1 em{font-style:normal; color:var(--red)}
 
 /* fallback when WebGL is unavailable */
 .still{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px}
-.still i{display:block; height:46px; border-radius:6px; background:linear-gradient(90deg, #2b2b2b, #3a3a3a 50%, #2b2b2b)}
+.still i{display:block; height:46px; border-radius:6px; background:var(--bar-mute)}
 .still i:nth-child(1){width:60%} .still i:nth-child(2){width:46%; background:#5e1511} .still i:nth-child(3){width:33%; background:#a9241c} .still i:nth-child(4){width:20%; background:var(--red)}
 .stage.live .still{display:none}
 .legend{display:none; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px}
@@ -127,7 +146,7 @@ h1 em{font-style:normal; color:var(--red)}
 
 /* ---------- site chrome ---------- */
 html{scroll-behavior:smooth}
-.skip{position:absolute; left:16px; top:-60px; background:var(--red); color:var(--white); padding:10px 14px; border-radius:8px; z-index:40; text-decoration:none; font-weight:700; font-size:0.8rem}
+.skip{position:absolute; left:16px; top:-60px; background:var(--red); color:#fff; padding:10px 14px; border-radius:8px; z-index:40; text-decoration:none; font-weight:700; font-size:0.8rem}
 .skip:focus{top:12px}
 .progress{position:fixed; left:0; right:0; top:env(safe-area-inset-top,0px); height:2px; z-index:25; pointer-events:none}
 .progress i{display:block; height:100%; background:var(--red); transform-origin:left; transform:scaleX(0)}
@@ -168,7 +187,7 @@ html{scroll-behavior:smooth}
 .facts div{padding:18px 16px 0 0; display:flex; flex-direction:column; gap:6px; min-width:0}
 .facts div + div{padding-left:16px; border-left:1px solid var(--line)}
 .facts b{font-size:clamp(1.6rem, 3vw, 2.4rem); font-weight:850; letter-spacing:-0.03em; line-height:1}
-.facts span{font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--grey-2); line-height:1.5}
+.facts span{font-size:0.68rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--grey-2); line-height:1.5}
 @media (max-width:860px){ .about{grid-template-columns:minmax(0,1fr)} }
 
 /* ---------- case studies ---------- */
@@ -182,7 +201,7 @@ html{scroll-behavior:smooth}
 .case .meta{margin:0; font-size:0.82rem; color:var(--grey-2)}
 .case .chal{margin:0; color:var(--grey); line-height:1.6; max-width:48ch}
 .case ul.did{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; border-top:1px solid var(--line)}
-.case ul.did li{padding:12px 0 12px 26px; border-bottom:1px solid var(--line); position:relative; font-size:0.93rem; color:#DCDCDC; line-height:1.5}
+.case ul.did li{padding:12px 0 12px 26px; border-bottom:1px solid var(--line); position:relative; font-size:0.93rem; color:var(--soft); line-height:1.5}
 .case ul.did li::before{content:""; position:absolute; left:2px; top:20px; width:12px; height:1px; background:var(--red)}
 .chips{display:flex; flex-wrap:wrap; gap:6px}
 .chips span{font-size:0.7rem; letter-spacing:0.04em; border:1px solid var(--line-2); border-radius:999px; padding:4px 11px; color:var(--grey)}
@@ -190,40 +209,40 @@ html{scroll-behavior:smooth}
 
 /* mock dashboard */
 .dash{perspective:1600px; min-width:0}
-.dash-win{position:relative; background:linear-gradient(180deg, #101010, #0a0a0a); border:1px solid var(--line-2); border-radius:18px; overflow:hidden; box-shadow:0 50px 90px -40px rgba(0,0,0,.9), 0 0 80px -30px rgba(255,59,48,.25); transform-style:preserve-3d; transition:transform 1.3s var(--ease); will-change:transform}
+.dash-win{position:relative; background:linear-gradient(180deg, var(--panel-a), var(--panel-b)); border:1px solid var(--line-2); border-radius:18px; overflow:hidden; box-shadow:0 50px 90px -40px var(--shadow), 0 0 80px -30px rgba(255,59,48,.25); transform-style:preserve-3d; transition:transform 1.3s var(--ease); will-change:transform}
 .js .dash.arm .dash-win{transform:rotateX(18deg) rotateY(-14deg) translateY(30px) scale(.94)}
 .js .dash.arm.in .dash-win{transform:none}
 .case:nth-child(even) .js .dash.arm .dash-win, .js .case:nth-child(even) .dash.arm .dash-win{transform:rotateX(18deg) rotateY(14deg) translateY(30px) scale(.94)}
 .js .case:nth-child(even) .dash.arm.in .dash-win{transform:none}
 .bar-top{display:flex; align-items:center; gap:12px; padding:12px 16px; border-bottom:1px solid var(--line)}
 .dots{display:flex; gap:6px}
-.dots i{width:9px; height:9px; border-radius:50%; background:#2a2a2a}
+.dots i{width:9px; height:9px; border-radius:50%; background:var(--dot)}
 .bar-top .ttl{font-size:0.7rem; letter-spacing:0.08em; color:var(--grey); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; flex:1}
 .pill{font-size:0.56rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--red); border:1px solid rgba(255,59,48,.45); border-radius:999px; padding:3px 9px; white-space:nowrap}
 .dash-body{padding:clamp(16px, 2.4vw, 26px); display:flex; flex-direction:column; gap:18px}
 .kpis{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px}
-.kpi{background:#141414; border:1px solid var(--line); border-radius:12px; padding:14px; display:flex; flex-direction:column; gap:6px; min-width:0}
-.kpi > span{font-size:0.56rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--grey-2); line-height:1.4}
+.kpi{background:var(--kpi); border:1px solid var(--line); border-radius:12px; padding:14px; display:flex; flex-direction:column; gap:6px; min-width:0}
+.kpi > span{font-size:0.62rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--grey-2); line-height:1.4}
 .kpi b{font-size:clamp(1.25rem, 2.3vw, 1.9rem); font-weight:850; letter-spacing:-0.03em; line-height:1; white-space:nowrap; font-variant-numeric:tabular-nums}
 .kpi b i{font-style:normal; color:var(--red)}
-.kpi.hot{background:linear-gradient(160deg, rgba(255,59,48,.18), #141414 70%); border-color:rgba(255,59,48,.35)}
-.panel{background:#121212; border:1px solid var(--line); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:12px; min-width:0}
-.panel-h{display:flex; justify-content:space-between; gap:10px; font-size:0.56rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--grey-2)}
+.kpi.hot{background:linear-gradient(160deg, rgba(255,59,48,.18), var(--kpi) 70%); border-color:rgba(255,59,48,.35)}
+.panel{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:12px; min-width:0}
+.panel-h{display:flex; justify-content:space-between; gap:10px; font-size:0.62rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--grey-2)}
 .panel svg{width:100%; height:auto; display:block; overflow:visible}
 .panel svg text{font-family:var(--font)}
 .v-bar{transform-box:fill-box; transform-origin:bottom; transition:transform 1.3s var(--ease) .35s}
 .js .arm .v-bar{transform:scaleY(0)}
 .js .arm.in .v-bar{transform:scaleY(1)}
 .path{display:grid; grid-template-columns:repeat(5, minmax(0,1fr)); position:relative; padding-top:6px}
-.path::before{content:""; position:absolute; left:10%; right:10%; top:15px; height:2px; background:#262626}
+.path::before{content:""; position:absolute; left:10%; right:10%; top:15px; height:2px; background:var(--track)}
 .path::after{content:""; position:absolute; left:10%; right:10%; top:15px; height:2px; background:var(--red); transform-origin:left; transition:transform 1.6s var(--ease) .4s}
 .js .arm .path::after{transform:scaleX(0)}
 .js .arm.in .path::after{transform:scaleX(1)}
 .path div{position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center; font-size:0.56rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--grey); line-height:1.35}
-.path div i{width:20px; height:20px; border-radius:50%; background:#0e0e0e; border:2px solid #444}
+.path div i{width:20px; height:20px; border-radius:50%; background:var(--node-bg); border:2px solid var(--node-bd)}
 .path div:last-child i{background:var(--red); border-color:var(--red); box-shadow:0 0 0 6px rgba(255,59,48,.18)}
 .path div:last-child{color:var(--white)}
-.dash-note{font-size:0.6rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--grey-2); margin:0}
+.dash-note{font-size:0.66rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--grey-2); margin:0}
 @media (max-width:520px){ .kpis{grid-template-columns:repeat(3, minmax(0,1fr)); gap:6px} .kpi{padding:10px} .kpi b{font-size:1.05rem} .kpi > span{font-size:0.5rem; letter-spacing:0.12em} .path div{font-size:0.48rem; letter-spacing:0.06em} }
 
 /* more wins */
@@ -243,7 +262,7 @@ html{scroll-behavior:smooth}
 .tg h3{margin:0; padding-top:18px; font-size:0.66rem; font-weight:700; letter-spacing:0.24em; text-transform:uppercase; color:var(--grey-2)}
 .tiles{display:grid; grid-template-columns:repeat(auto-fill, minmax(170px, 1fr)); gap:10px}
 .tile{position:relative; display:flex; align-items:center; gap:12px; min-height:58px; padding:0 16px; background:var(--ink); border:1px solid var(--line); border-radius:12px; font-size:0.92rem; font-weight:700; letter-spacing:0.01em; overflow:hidden; transition:border-color .3s, transform .35s var(--ease)}
-.tile::before{content:""; width:7px; height:7px; border-radius:2px; background:#3a3a3a; flex:none; transition:background .3s}
+.tile::before{content:""; width:7px; height:7px; border-radius:2px; background:var(--tile-dot); flex:none; transition:background .3s}
 .tile::after{content:""; position:absolute; inset:0; background:radial-gradient(120px 60px at var(--mx,50%) var(--my,50%), rgba(255,59,48,.16), transparent 70%); opacity:0; transition:opacity .3s; pointer-events:none}
 .tile:hover{border-color:rgba(255,59,48,.5); transform:translateY(-3px)}
 .tile:hover::before{background:var(--red)}
@@ -262,7 +281,7 @@ html{scroll-behavior:smooth}
 .job .win1 b{color:var(--white)}
 .job .type{justify-self:end; font-size:0.56rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; padding:4px 10px; border-radius:999px; border:1px solid var(--line-2); color:var(--grey-2); white-space:nowrap}
 .job .type.fl{border-color:rgba(255,59,48,.5); color:var(--red)}
-.edu{margin:28px 0 0; font-size:0.66rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--grey-2); line-height:1.8}
+.edu{margin:28px 0 0; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--grey-2); line-height:1.8}
 @media (max-width:900px){ .job{grid-template-columns:minmax(0,1fr) auto; gap:6px 16px} .job .when{grid-column:1 / -1} .job .win1{grid-column:1 / -1} .job .type{grid-row:2; grid-column:2} }
 
 /* ---------- services ---------- */
@@ -275,7 +294,7 @@ html{scroll-behavior:smooth}
 .svc h3{margin:0; font-size:clamp(1.15rem, 2.2vw, 1.7rem); font-weight:850; text-transform:uppercase; letter-spacing:-0.01em}
 .svc p{margin:0; color:var(--grey); font-size:0.9rem; line-height:1.5}
 .svc .go{font-size:1.3rem; color:var(--red); text-align:right; transition:transform .4s var(--ease), color .3s}
-.svc li:hover .i, .svc li:hover p, .svc li:hover .go{color:var(--white)}
+.svc li:hover, .svc li:hover h3, .svc li:hover .i, .svc li:hover p, .svc li:hover .go{color:#fff}
 .svc li:hover .go{transform:rotate(-45deg)}
 @media (max-width:760px){ .svc li{grid-template-columns:40px minmax(0,1fr); gap:6px 12px} .svc p{grid-column:2} .svc .go{display:none} }
 
@@ -290,7 +309,7 @@ html{scroll-behavior:smooth}
 .noise em{font-style:normal; color:var(--red)}
 .paths{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px; margin-top:clamp(48px, 7vw, 72px)}
 .pathc{background:var(--ink); border:1px solid var(--line); border-radius:22px; padding:clamp(22px, 3vw, 34px); display:flex; flex-direction:column; gap:16px; min-width:0; transition:border-color .3s}
-.pathc:hover{border-color:#3a3a3a}
+.pathc:hover{border-color:var(--grey-2)}
 .pathc h3{margin:0; font-size:1.45rem; font-weight:850; text-transform:uppercase; letter-spacing:-0.01em}
 .pathc p{margin:0; color:var(--grey); line-height:1.6}
 .pathc .acts{display:flex; flex-wrap:wrap; gap:10px; margin-top:auto}
@@ -304,18 +323,91 @@ html{scroll-behavior:smooth}
 .copy-btn:hover{border-color:var(--red)}
 @media (max-width:760px){ .paths{grid-template-columns:minmax(0,1fr)} }
 footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; padding-block:26px 36px; border-top:1px solid var(--line); font-size:0.62rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--grey-2)}
+
+/* ---------- theme toggle ---------- */
+.theme-btn{width:42px; height:42px; border-radius:50%; border:1px solid var(--line-2); background:transparent; color:var(--white); cursor:pointer; display:grid; place-items:center; transition:border-color .3s, transform .4s var(--ease)}
+.theme-btn:hover{border-color:var(--red); transform:rotate(18deg)}
+.theme-btn .i-sun{display:block} .theme-btn .i-moon{display:none}
+:root[data-theme="light"] .theme-btn .i-sun{display:none} :root[data-theme="light"] .theme-btn .i-moon{display:block}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]) .theme-btn .i-sun{display:none} :root:not([data-theme="dark"]) .theme-btn .i-moon{display:block} }
+body{transition:background-color .4s, color .4s}
+
+/* ---------- about me ---------- */
+.about2{display:grid; grid-template-columns:minmax(0,0.78fr) minmax(0,1.22fr); gap:clamp(36px, 6vw, 96px); align-items:start}
+.portrait{margin:0; position:relative; max-width:440px; width:100%; justify-self:start}
+.portrait::before{content:""; position:absolute; inset:0 0 auto 0; aspect-ratio:4/5; transform:translate(16px,16px); border:1.5px solid var(--red); border-radius:22px; z-index:0; transition:transform .6s var(--ease)}
+.portrait:hover::before{transform:translate(10px,10px)}
+.ph{position:relative; z-index:1; aspect-ratio:4/5; max-width:100%; border-radius:22px; overflow:hidden; background:var(--kpi); border:1px solid var(--line)}
+.ph img{display:block; width:100%; height:100%; object-fit:cover; filter:grayscale(1) contrast(1.06) brightness(.98); transform:scale(1.02); transition:transform 1.2s var(--ease), filter .6s}
+.portrait:hover .ph img{transform:scale(1.06)}
+.ph::after{content:""; position:absolute; inset:auto 0 0 0; height:42%; background:linear-gradient(transparent, rgba(255,59,48,.22)); mix-blend-mode:multiply; pointer-events:none}
+.ph-empty{position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; gap:8px}
+.ph-empty b{font-size:clamp(3rem, 7vw, 5rem); font-weight:900; letter-spacing:-0.04em; color:var(--white)}
+.ph-empty span{font-size:0.6rem; font-weight:700; letter-spacing:0.24em; text-transform:uppercase; color:var(--grey-2)}
+.ph.empty img{display:none} .ph.empty .ph-empty{display:flex}
+.portrait figcaption{position:relative; z-index:1; display:flex; justify-content:space-between; gap:12px; margin-top:26px; font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--grey-2)}
+.portrait figcaption b{color:var(--white); font-weight:800}
+.story{display:flex; flex-direction:column; gap:22px; min-width:0}
+.story h2{margin:0; font-size:clamp(2.2rem, 4.8vw, 3.8rem); font-weight:850; line-height:0.95; letter-spacing:-0.025em; text-transform:uppercase; text-wrap:balance}
+.story h2 em{font-style:normal; color:var(--red)}
+.story-txt{display:flex; flex-direction:column; gap:14px; max-width:60ch}
+.story-txt p{margin:0; color:var(--grey); line-height:1.7; font-size:1rem}
+.story-txt p:first-child{color:var(--white); font-size:1.12rem}
+.does{list-style:none; margin:4px 0 0; padding:0; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px}
+.does li{display:flex; flex-direction:column; gap:3px; padding:14px 16px; border:1px solid var(--line); border-radius:12px; background:var(--ink); transition:border-color .3s, transform .35s var(--ease)}
+.does li:hover{border-color:var(--red); transform:translateY(-2px)}
+.does b{font-size:0.9rem; font-weight:800}
+.does span{font-size:0.78rem; color:var(--grey-2)}
+@media (max-width:900px){ .about2{grid-template-columns:minmax(0,1fr)} .portrait{max-width:300px; justify-self:center} }
+@media (max-width:420px){ .does{grid-template-columns:minmax(0,1fr)} }
+
+/* about me: highlights, step cards, market tags */
+.story-txt p{font-size:1.08rem; line-height:1.75; color:var(--grey)}
+.story-txt p mark{background:none; color:var(--red); font-weight:700}
+.story-txt p:first-child{color:var(--grey); font-size:1.08rem}
+.does{counter-reset:none}
+.does li{position:relative; padding:16px 16px 16px 16px; gap:4px}
+.does li i{font-style:normal; font-size:0.66rem; font-weight:800; letter-spacing:0.16em; color:var(--red)}
+.does li b{font-size:1rem; text-transform:uppercase; letter-spacing:0.04em}
+.does li span{font-size:0.84rem; color:var(--grey); line-height:1.45}
+.does li::after{content:""; position:absolute; left:16px; right:16px; bottom:0; height:2px; background:var(--red); transform:scaleX(0); transform-origin:left; transition:transform .5s var(--ease)}
+.does li:hover::after{transform:scaleX(1)}
+.facts2{grid-template-columns:minmax(0,0.7fr) minmax(0,0.7fr) minmax(0,1.6fr)}
+.facts2 .mk{gap:10px}
+.facts2 .mk > span{font-size:0.68rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--grey-2)}
+.tags{margin:0; display:flex; flex-wrap:wrap; gap:6px}
+.tags em{font-style:normal; font-size:0.8rem; font-weight:700; padding:5px 12px; border-radius:999px; border:1px solid var(--line-2); color:var(--white)}
+.tags em.hot{background:var(--red); border-color:var(--red); color:#fff}
+@media (max-width:560px){ .facts2{grid-template-columns:repeat(2, minmax(0,1fr))} .facts2 .mk{grid-column:1 / -1; padding-left:0!important; border-left:0!important; border-top:1px solid var(--line); margin-top:14px} }
+
+/* about me: one text colour, compact cards */
+.story-txt p, .story-txt p:first-child{color:var(--white)}
+.story-txt p mark{color:inherit; font-weight:700}
+.does{gap:8px}
+.does li{padding:11px 14px; gap:2px; border-radius:10px}
+.does li i{font-size:0.6rem}
+.does li b{font-size:0.86rem}
+.does li span{font-size:0.78rem; color:var(--white); opacity:.85}
+.does li::after{left:14px; right:14px}
+
+.story h2{font-size:clamp(1.9rem, 3.4vw, 3.1rem); text-wrap:pretty}
+.ph{background:#000}
+.ph img{object-position:50% 20%}
+.ph::after{height:30%; background:linear-gradient(transparent, rgba(255,59,48,.18))}
 </style>
 <link rel="canonical" href="https://fazilarfath.github.io/Portfolio/">
 <meta property="og:title" content="Fazil Arfath | Digital Marketing &amp; Demand Generation">
-<meta property="og:description" content="4 years in B2B demand generation, ABM, paid search and SEO. 3–4 demos a week from ABM, −20% cost per lead, enquiries from 70 to 250 a month.">
+<meta property="og:description" content="Digital marketer in Bengaluru: business objective to outcome across SEO, paid ads, social, email and ABM. India, US, APAC and Saudi Arabia.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://fazilarfath.github.io/Portfolio/">
+<meta property="og:image" content="https://fazilarfath.github.io/Portfolio/fazil-portrait.jpg">
 <meta name="theme-color" content="#050505">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050505%22/%3E%3Ctext x=%2230%22 y=%2244%22 font-family=%22Arial,sans-serif%22 font-weight=%22900%22 font-size=%2232%22 text-anchor=%22middle%22 fill=%22%23FFFFFF%22%3EF%3C/text%3E%3Ccircle cx=%2246%22 cy=%2242%22 r=%225%22 fill=%22%23FF3B30%22/%3E%3C/svg%3E">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Mohammed Fazil Arfath","alternateName":"Fazil Arfath","jobTitle":"Digital Marketing & Demand Generation Specialist","address":{"@type":"PostalAddress","addressLocality":"Bengaluru","addressCountry":"IN"},"email":"mailto:arfath.fazil@gmail.com","sameAs":["https://www.linkedin.com/in/fazil-arfath/"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Mohammed Fazil Arfath","alternateName":"Fazil Arfath","jobTitle":"Digital Marketing & Demand Generation Specialist","image":"https://fazilarfath.github.io/Portfolio/fazil-portrait.jpg","address":{"@type":"PostalAddress","addressLocality":"Bengaluru","addressCountry":"IN"},"email":"mailto:arfath.fazil@gmail.com","sameAs":["https://www.linkedin.com/in/fazil-arfath/"]}</script>
 <style>body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>
 </head>
 <body>
+<script>try{var t=localStorage.getItem("fa-theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <a class="skip" href="#work">Skip to case studies</a>
 <div class="progress" aria-hidden="true"><i id="prog"></i></div>
 <main id="top">
@@ -324,6 +416,7 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
     <a class="logo" href="#top">Fazil<span>.</span>Arfath</a>
     <nav id="menu" aria-label="Main">
       <ul>
+        <li><a href="#about">About</a></li>
         <li><a href="#work">Work</a></li>
         <li><a href="#tools">Tools</a></li>
         <li><a href="#experience">Experience</a></li>
@@ -332,6 +425,10 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
     </nav>
     <div class="nav-r">
       <a class="link" href="#contact">Let's connect</a>
+      <button class="theme-btn" id="theme-btn" type="button" aria-label="Switch to light mode" title="Switch theme">
+        <svg class="i-sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="2.5" x2="12" y2="4.6"/><line x1="12" y1="19.4" x2="12" y2="21.5"/><line x1="2.5" y1="12" x2="4.6" y2="12"/><line x1="19.4" y1="12" x2="21.5" y2="12"/><line x1="5.3" y1="5.3" x2="6.8" y2="6.8"/><line x1="17.2" y1="17.2" x2="18.7" y2="18.7"/><line x1="5.3" y1="18.7" x2="6.8" y2="17.2"/><line x1="17.2" y1="6.8" x2="18.7" y2="5.3"/></g></svg>
+        <svg class="i-moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8 8 0 0 1 9.8 4a8 8 0 1 0 10.2 10.2Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      </button>
       <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span><span></span></button>
     </div>
   </header>
@@ -363,13 +460,28 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
   </div>
 </section>
 
-<section class="sec" id="about" aria-label="About">
-  <div class="wrap about">
-    <p class="big rv">I build pipeline for <em>B2B SaaS</em> teams in Bengaluru and lead flow for <em>service businesses</em> in Saudi Arabia. I start with the buyer, pick the channels, run the campaigns and follow every lead through to sales.</p>
-    <div class="facts rv">
-      <div><b>4 yrs</b><span>Digital marketing</span></div>
-      <div><b>5</b><span>In-house B2B roles</span></div>
-      <div><b>4</b><span>Markets: India, US, APAC, Saudi</span></div>
+<section class="sec" id="about" aria-labelledby="about-t">
+  <div class="wrap about2">
+    <figure class="portrait rv">
+      <div class="ph" id="ph">
+        <img id="portrait-img" src="fazil-portrait.jpg" alt="Portrait of Fazil Arfath" width="960" height="1209" loading="lazy" decoding="async">
+        <div class="ph-empty" aria-hidden="true"><b>FA</b><span>Portrait</span></div>
+      </div>
+      <figcaption><b>Fazil Arfath</b><span>Digital marketer · Bengaluru</span></figcaption>
+    </figure>
+
+    <div class="story">
+      <p class="eyebrow rv"><i></i>About me</p>
+      <h2 id="about-t" class="rv">From business objective <em>to outcome.</em></h2>
+      <div class="story-txt rv">
+        <p>Hi, I'm Fazil, a digital marketer from Bengaluru. Every project I take on starts with one question: <mark>what does this business need to grow?</mark> From there I build the strategy and run it myself across <mark>SEO, paid ads, social media, email and ABM</mark>, with every channel moving people down the same funnel. For 4 years I've done this for B2B SaaS teams in <mark>India, the US and APAC</mark>, and for clients in <mark>Saudi Arabia</mark>. Watching a campaign turn into <mark>real pipeline</mark> still makes my day.</p>
+      </div>
+      <ol class="does rv" aria-label="How I work">
+        <li><i>01</i><b>Understand</b><span>Business goals, the buyer, and where the funnel leaks.</span></li>
+        <li><i>02</i><b>Strategise</b><span>Channel mix, budget and the KPIs that matter.</span></li>
+        <li><i>03</i><b>Execute</b><span>SEO, paid, social, email and ABM, run end to end.</span></li>
+        <li><i>04</i><b>Optimise</b><span>Weekly tests and reporting that turn traffic into pipeline.</span></li>
+      </ol>
     </div>
   </div>
 </section>
@@ -446,15 +558,15 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
               <div class="panel">
                 <div class="panel-h"><span>Before vs after</span><span>Indexed, start = 100</span></div>
                 <svg viewBox="0 0 480 210" role="img" aria-label="Indexed chart: cost per lead 100 to 80, qualified leads 100 to 110, organic traffic 100 to 150">
-                  <g stroke="#232323"><line x1="30" y1="170" x2="470" y2="170"/><line x1="30" y1="110" x2="470" y2="110" stroke-dasharray="3 5"/><line x1="30" y1="50" x2="470" y2="50" stroke-dasharray="3 5"/></g>
-                  <g font-size="10" fill="#8C8C8C" text-anchor="end"><text x="24" y="173">0</text><text x="24" y="113">75</text><text x="24" y="53">150</text></g>
+                  <g style="stroke:var(--line)"><line x1="30" y1="170" x2="470" y2="170"/><line x1="30" y1="110" x2="470" y2="110" stroke-dasharray="3 5"/><line x1="30" y1="50" x2="470" y2="50" stroke-dasharray="3 5"/></g>
+                  <g font-size="10" style="fill:var(--grey-2)" text-anchor="end"><text x="24" y="173">0</text><text x="24" y="113">75</text><text x="24" y="53">150</text></g>
                   <!-- scale: 150 = 120px -> 0.8px per point -->
-                  <rect class="v-bar" x="60" y="90" width="40" height="80" fill="#3c3c3c"/><rect class="v-bar" x="106" y="106" width="40" height="64" fill="#FF3B30"/>
-                  <rect class="v-bar" x="210" y="90" width="40" height="80" fill="#3c3c3c"/><rect class="v-bar" x="256" y="82" width="40" height="88" fill="#FF3B30"/>
-                  <rect class="v-bar" x="360" y="90" width="40" height="80" fill="#3c3c3c"/><rect class="v-bar" x="406" y="50" width="40" height="120" fill="#FF3B30"/>
-                  <g font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle"><text x="80" y="83">100</text><text x="126" y="99">80</text><text x="230" y="83">100</text><text x="276" y="75">110</text><text x="380" y="83">100</text><text x="426" y="43">150</text></g>
-                  <g font-size="9.5" fill="#BEBEBE" letter-spacing="1.2" text-anchor="middle"><text x="103" y="190">COST PER LEAD</text><text x="253" y="190">QUALIFIED LEADS</text><text x="403" y="190">ORGANIC TRAFFIC</text></g>
-                  <g font-size="9" fill="#8C8C8C" text-anchor="middle"><text x="103" y="204">before · after</text><text x="253" y="204">before · after</text><text x="403" y="204">start · month 5</text></g>
+                  <rect class="v-bar" x="60" y="90" width="40" height="80" style="fill:var(--bar-mute)"/><rect class="v-bar" x="106" y="106" width="40" height="64" style="fill:var(--red)"/>
+                  <rect class="v-bar" x="210" y="90" width="40" height="80" style="fill:var(--bar-mute)"/><rect class="v-bar" x="256" y="82" width="40" height="88" style="fill:var(--red)"/>
+                  <rect class="v-bar" x="360" y="90" width="40" height="80" style="fill:var(--bar-mute)"/><rect class="v-bar" x="406" y="50" width="40" height="120" style="fill:var(--red)"/>
+                  <g font-size="11" font-weight="700" style="fill:var(--white)" text-anchor="middle"><text x="80" y="83">100</text><text x="126" y="99">80</text><text x="230" y="83">100</text><text x="276" y="75">110</text><text x="380" y="83">100</text><text x="426" y="43">150</text></g>
+                  <g font-size="9.5" style="fill:var(--grey)" letter-spacing="1.2" text-anchor="middle"><text x="103" y="190">COST PER LEAD</text><text x="253" y="190">QUALIFIED LEADS</text><text x="403" y="190">ORGANIC TRAFFIC</text></g>
+                  <g font-size="9" style="fill:var(--grey-2)" text-anchor="middle"><text x="103" y="204">before · after</text><text x="253" y="204">before · after</text><text x="403" y="204">start · month 5</text></g>
                 </svg>
               </div>
               <p class="dash-note">Illustrative layout · numbers are real results</p>
@@ -488,12 +600,12 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
               <div class="panel">
                 <div class="panel-h"><span>Monthly enquiries</span><span>Approximate, to scale</span></div>
                 <svg viewBox="0 0 480 190" role="img" aria-label="Bar chart: monthly enquiries grew from about 70 to about 250">
-                  <line x1="30" y1="160" x2="470" y2="160" stroke="#232323"/>
+                  <line x1="30" y1="160" x2="470" y2="160" style="stroke:var(--line)"/>
                   <!-- scale: 250 = 130px -->
-                  <rect class="v-bar" x="100" y="123.6" width="100" height="36.4" fill="#3c3c3c"/>
-                  <rect class="v-bar" x="280" y="30" width="100" height="130" fill="#FF3B30"/>
-                  <g font-weight="800" fill="#FFFFFF" text-anchor="middle" font-size="18"><text x="150" y="114">~70</text><text x="330" y="21">~250</text></g>
-                  <g font-size="10" fill="#BEBEBE" letter-spacing="1.5" text-anchor="middle"><text x="150" y="180">BEFORE</text><text x="330" y="180">AFTER</text></g>
+                  <rect class="v-bar" x="100" y="123.6" width="100" height="36.4" style="fill:var(--bar-mute)"/>
+                  <rect class="v-bar" x="280" y="30" width="100" height="130" style="fill:var(--red)"/>
+                  <g font-weight="800" style="fill:var(--white)" text-anchor="middle" font-size="18"><text x="150" y="114">~70</text><text x="330" y="21">~250</text></g>
+                  <g font-size="10" style="fill:var(--grey)" letter-spacing="1.5" text-anchor="middle"><text x="150" y="180">BEFORE</text><text x="330" y="180">AFTER</text></g>
                 </svg>
               </div>
               <p class="dash-note">Same playbook now runs for LuxeArch, Jeddah: ~10 enquiries a day from zero</p>
@@ -909,6 +1021,30 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
       try { navigator.clipboard.writeText(text).then(function(){ b.textContent = 'Copied'; reset(); }, fallback); } catch(e){ fallback(); }
     });
   });
+})();
+</script>
+
+<script>
+(function(){
+  /* theme: follows the device until the visitor picks one */
+  var root = document.documentElement, btn = document.getElementById('theme-btn');
+  var mq = matchMedia('(prefers-color-scheme: light)');
+  function isLight(){ var t = root.getAttribute('data-theme'); return t ? t === 'light' : mq.matches; }
+  function label(){ btn.setAttribute('aria-label', isLight() ? 'Switch to dark mode' : 'Switch to light mode'); }
+  label();
+  btn.addEventListener('click', function(){
+    var next = isLight() ? 'dark' : 'light';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('fa-theme', next); } catch(e){}
+    label();
+  });
+  if (mq.addEventListener) mq.addEventListener('change', label);
+
+  /* portrait: show the placeholder if the photo is missing */
+  var img = document.getElementById('portrait-img'), ph = document.getElementById('ph');
+  function miss(){ ph.classList.add('empty'); }
+  img.addEventListener('error', miss);
+  if (img.complete && img.naturalWidth === 0) miss();
 })();
 </script>
 </body>
